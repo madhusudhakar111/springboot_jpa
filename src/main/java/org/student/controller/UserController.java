@@ -1,6 +1,7 @@
 package org.student.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -88,6 +89,41 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("Failure", e.getMessage()));
         }
     }
+
+
+    @GetMapping("/getuserbycity")
+    public ResponseEntity<?> getUserByCity(@RequestParam String city){
+        try {
+            List<User> usrList = userService.getUserByCity(city);
+            return ResponseEntity.ok(usrList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("Failure", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/gettotalusercount")
+    public ResponseEntity<?> getTotalUserCount(){
+        try {
+            Integer count = userService.getTotalUserCount();
+            return ResponseEntity.ok(count);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("Failure", e.getMessage()));
+        }
+    }
+
+
+    @GetMapping("/getuserpage")
+    public ResponseEntity<?> getUserPage(@RequestParam int page, @RequestParam int size){
+        try {
+            Page<User> userPage = userService.getUserPage(page, size);
+            return ResponseEntity.ok(userPage);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("Failure", e.getMessage()));
+        }
+    }
+
+
+
 
 
 

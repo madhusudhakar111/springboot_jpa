@@ -3,6 +3,7 @@ package org.student.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.student.entity.User;
@@ -21,6 +22,22 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Query(value="SELECT * FROM user u WHERE u.state =:state", nativeQuery = true)
     public List<User> getUserState(@Param("state") String state);
+
+
+    // Stored procedure example
+
+  //  @Query(value="CALL GetUsersByCity(:city)", nativeQuery = true)
+   // public List<User> getUserByCity(@Param("city") String city);
+
+    /*
+
+        DELIMITER $$
+        CREATE PROCEDURE GetUsersByCity(IN cityName VARCHAR(255))
+        BEGIN
+        SELECT * FROM user WHERE city = cityName;
+        END $$
+        DELIMITER ;
+    */
 
 
     // JPQL example
@@ -73,6 +90,12 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u SET u.city = :city WHERE u.state = :state")
     void updateCityByState(@Param("city") String city, @Param("state") String state);
+
+
+    @Procedure(procedureName = "GetUsersByCity")
+    public List<User> getUserByCity(@Param("city") String city);
+
+
 
 
 
