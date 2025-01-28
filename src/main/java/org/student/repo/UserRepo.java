@@ -1,6 +1,7 @@
 package org.student.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,49 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.state = :state")
     List<User> findUsersByState(@Param("state") String state);
+
+    @Query("SELECT u FROM User u WHERE u.name = :name AND u.city = :city")
+    List<User> findUsersByNameAndCity(@Param("name") String name, @Param("city") String city);
+
+
+    @Query("SELECT u FROM User u WHERE u.email LIKE %:email%")
+    List<User> findUsersByEmailContaining(@Param("email") String email);
+
+
+    @Query("SELECT u FROM User u WHERE u.name = :name OR u.email = :email")
+    List<User> findUsersByNameOrEmail(@Param("name") String name, @Param("email") String email);
+
+
+    @Query("SELECT u FROM User u ORDER BY u.name ASC")
+    List<User> findAllUsersOrderByNameAsc();
+
+
+    @Query("SELECT u FROM User u WHERE u.id BETWEEN :idfrom AND :idto")
+    List<User> findUsersByZipRange(@Param("idfrom") String idfrom, @Param("idto") String idto);
+
+    @Query("SELECT u FROM User u WHERE u.phone IS NULL")
+    List<User> findUsersWithoutPhone();
+
+
+    @Query("SELECT u FROM User u WHERE u.state IN :states")
+    List<User> findUsersByStates(@Param("states") List<String> states);
+
+
+    @Query("SELECT COUNT(u) FROM User u WHERE u.state = :state")
+    long countUsersByState(@Param("state") String state);
+
+
+    @Modifying
+    @Query("DELETE FROM User u WHERE u.state = :state")
+    void deleteUsersByState(@Param("state") String state);
+
+
+
+    @Modifying
+    @Query("UPDATE User u SET u.city = :city WHERE u.state = :state")
+    void updateCityByState(@Param("city") String city, @Param("state") String state);
+
+
 
 
 }
