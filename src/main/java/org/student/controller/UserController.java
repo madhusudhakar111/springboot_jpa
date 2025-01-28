@@ -78,25 +78,19 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getuserstate")
-    public ResponseEntity<?> getUserState(@RequestParam String state){
+
+    @GetMapping("/findbyname")
+    public ResponseEntity<?> findByName(@RequestParam String name){
         try {
-            List<User> usrList = userService.getUserState(state);
+            List<User> usrList = userService.findByName(name);
             return ResponseEntity.ok(usrList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("Failure", e.getMessage()));
         }
     }
 
-    @GetMapping("/findusersbystate")
-    public ResponseEntity<?> findUsersByState(@RequestParam String state){
-        try {
-            List<User> usrList = userService.findUsersByState(state);
-            return ResponseEntity.ok(usrList);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("Failure", e.getMessage()));
-        }
-    }
+
+
 
 
 

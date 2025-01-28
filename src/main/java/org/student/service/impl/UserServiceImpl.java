@@ -47,15 +47,14 @@ public class UserServiceImpl implements UserService {
         return userRepo.getUserNamesLike(name);
     }
 
+
+    // JPQL example's
+
     @Override
-    public List<User> getUserState(String state){
-        return userRepo.getUserState(state);
+    public  List<User> findByName(String name){
+        return userRepo.findByNameCustom(name);
     }
 
 
-    @Override
-    public List<User> findUsersByState(String state){
-        return userRepo.findUsersByState(state);
-    }
 
 }

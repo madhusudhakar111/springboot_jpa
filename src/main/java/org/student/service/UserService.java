@@ -18,7 +18,5 @@ public interface UserService {
 
     List<User> getUserNamesLike(String name);
 
-    List<User> getUserState(String state);
-
-    List<User> findUsersByState(String state);
+    List<User> findByName(String name);
 }

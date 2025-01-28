@@ -25,8 +25,13 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     // JPQL example
 
+    @Query("SELECT u FROM User u WHERE u.name = :name")
+    List<User> findByNameCustom(@Param("name") String name);
+
+
     @Query("SELECT u FROM User u WHERE u.state = :state")
     List<User> findUsersByState(@Param("state") String state);
+
 
     @Query("SELECT u FROM User u WHERE u.name = :name AND u.city = :city")
     List<User> findUsersByNameAndCity(@Param("name") String name, @Param("city") String city);
@@ -68,6 +73,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u SET u.city = :city WHERE u.state = :state")
     void updateCityByState(@Param("city") String city, @Param("state") String state);
+
 
 
 
